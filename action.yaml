@@ -119,7 +119,7 @@ runs:
           done
         printf " [DONE]\n\n"
 
-        ssh_string=$(grep -oE "tcp://(.+)" .ngrok.log | sed "s/tcp:\/\//code-insiders --remote-ssh+$(cat ssh_user)@/")
+        ssh_string=$(grep -oE "tcp://(.+)" .ngrok.log | sed "s/tcp:\/\//code-insiders --remote ssh-remote+$(cat ssh_user)@/")
         continue_path=$(eval echo ~$(cat ssh_user)/continue)
         time=${{ inputs.NGROK_TIMEOUT }}
 
