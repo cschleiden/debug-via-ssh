@@ -119,7 +119,7 @@ runs:
           done
         printf " [DONE]\n\n"
 
-        ssh_string=$(grep -oE "tcp://(.+)" .ngrok.log | sed "s/tcp:\/\//ssh $(cat ssh_user)@/" | sed "s/:/ -p /")
+        ssh_string=$(grep -oE "tcp://(.+)" .ngrok.log | sed "s/tcp:\/\//code-insiders --remote-ssh+$(cat ssh_user)@/")
         continue_path=$(eval echo ~$(cat ssh_user)/continue)
         time=${{ inputs.NGROK_TIMEOUT }}
 
@@ -128,19 +128,14 @@ runs:
           echo ""
           echo "#################"
           echo "# Connect to this runner using:"
-          echo "#########################################"
-          echo $ssh_string
+          echo $ssh_string /home/runner/work/codespace-debug/codespace-debug
           echo "#########################################"
           echo "#"
           echo "# Allow workflow to continue using:"
-          echo "#########################################"
           echo "bash -c \"touch $continue_path\""
-          echo "#########################################"
           echo "#"
           echo "# SSH session time left:"
-          echo "########################################"
           printf '#%-14s%dh:%02dm:%02ds%-14s#\n' '' $(($time/3600)) $(($time%3600/60)) $(($time%60)) ''
-          echo "########################################"
           echo ""
           
           sleep 10
